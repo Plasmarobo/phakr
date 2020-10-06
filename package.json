@@ -1,0 +1,58 @@
+{
+  "name": "Phakr",
+  "version": "1.0.0",
+  "description": "An ECS Library Inspired by Mark",
+  "author": "Austen Higgins-Cassidy",
+  "license": "MIT",
+  "repository": "plasmarobo/phakr",
+  "keywords": [
+    "phaser",
+    "game",
+    "ecs",
+    "entity",
+    "component",
+    "system"
+  ],
+  "type": "module",
+  "main": "./lib/index.js",
+  "browser": {
+    "./lib/index.js": "./lib/browser.js"
+  },
+  "files": [
+    "lib"
+  ],
+  "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "browserify": "^16.5.2",
+    "chai": "^1.10.0",
+    "coveralls": "^2.11.2",
+    "eslint": "^0.14.1",
+    "event-stream": "^4.0.1",
+    "gulp": "^4.0.0",
+    "gulp-bump": "^3.2.0",
+    "gulp-cli": "^2.3.0",
+    "gulp-connect": "^5.7.0",
+    "gulp-git": "^2.10.1",
+    "gulp-jshint": "^2.1.0",
+    "gulp-util": "^3.0.1",
+    "istanbul": "^0.3.6",
+    "jshint": "^2.12.0",
+    "jshint-summary": "^0.4.0",
+    "matcha": "^0.6.0",
+    "mocha": "^2.1.0",
+    "vinyl-source-stream": "^2.0.0",
+    "watchify": "^3.11.1"
+  },
+  "scripts": {
+    "lint": "eslint lib",
+    "perf": "matcha",
+    "test": "mocha --check-leaks",
+    "coveralls": "istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
+  },
+  "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/preset-env": "^7.11.5",
+    "babelify": "^10.0.0"
+  }
+}
