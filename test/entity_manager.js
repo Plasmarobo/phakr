@@ -82,19 +82,19 @@ describe("EntityManager", function() {
       e.add(new Tag('bar'))
     }
 
-    expect(em.query(Position)).to.have.length(20)
-    expect(em.query(Motion)).to.have.length(10)
-    expect(em.query(Tag)).to.have.length(20)
+    expect(em.query([Position])).to.have.length(20)
+    expect(em.query([Motion])).to.have.length(10)
+    expect(em.query([Tag])).to.have.length(20)
     expect(em.query()).to.have.length(0)
 
-    var tagged = em.query(Tag)
+    var tagged = em.query([Tag])
     for (var i = 0; i < tagged.length; i++) {
       if ((i & 1) === 0) {
         tagged[i].destroy()
       }
     }
 
-    expect(em.query(Tag)).to.have.length(10)
+    expect(em.query([Tag])).to.have.length(10)
   })
 
   it("should expand", function() {

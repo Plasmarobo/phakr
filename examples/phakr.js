@@ -41,6 +41,11 @@ var Components = /*#__PURE__*/function () {
     get: function get() {
       return this._count;
     }
+  }, {
+    key: "array",
+    get: function get() {
+      return this._types;
+    }
   }]);
 
   return Components;
@@ -180,6 +185,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.EntityManager = void 0;
 
+var _components = require("./components.js");
+
 var _contiguous_storage = require("./contiguous_storage.js");
 
 var _entity = require("./entity.js");
@@ -236,11 +243,15 @@ var EntityManager = /*#__PURE__*/function () {
     }
   }, {
     key: "query",
-    value: function query() {
+    value: function query(components) {
+      if (typeof components == 'undefined' || components === null) {
+        components = [];
+      }
+
       var mask = 0;
 
-      for (var i = 0; i < arguments.length; i++) {
-        mask |= this._components.mask(arguments[i]);
+      for (var i = 0; i < components.length; i++) {
+        mask |= this._components.mask(components[i]);
       }
 
       if (mask === 0) {
@@ -335,7 +346,7 @@ var EntityManager = /*#__PURE__*/function () {
 
 exports.EntityManager = EntityManager;
 
-},{"./contiguous_storage.js":2,"./entity.js":3,"./utils.js":8}],5:[function(require,module,exports){
+},{"./components.js":1,"./contiguous_storage.js":2,"./entity.js":3,"./utils.js":8}],5:[function(require,module,exports){
 "use strict";
 
 var _components = require("./components");
@@ -489,18 +500,18 @@ PhakrPlugin.prototype = {
     var components = new _components.Components(Cs);
     this.ecsmanager = new _entity_manager.EntityManager(components);
   },
-  createEntity: function createEntity() {
+  createEntity: function createEntity(components) {
     var e = this.ecsmanager.create();
-    var Cs = new Array(arguments.length);
+    var Cs = new Array(components);
 
     for (var i = 0; i < Cs.length; i++) {
-      e.add(arguments[i]);
+      e.add(components[i]);
     }
 
     return e;
   },
-  queryEntities: function queryEntities() {
-    return this.ecsmanager.query(arguments);
+  queryEntities: function queryEntities(components) {
+    return this.ecsmanager.query(components);
   },
   getEntity: function getEntity(id) {
     return this.ecsmanager.get(id);
