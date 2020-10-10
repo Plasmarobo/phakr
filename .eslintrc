@@ -17,6 +17,7 @@
     "no-underscore-dangle": 0,
     "no-use-before-define": [2, "nofunc"],
     "semi": [2, "never"],
-    "strict": 0
+    "strict": 0,
+    "esversion": 6
   }
 }

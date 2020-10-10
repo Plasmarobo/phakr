@@ -1,5 +1,6 @@
-var expect = require("chai").expect
-var Components = require("../lib/components")
+import chai from 'chai';
+let expect = chai.expect;
+import { Components } from "../lib/components.js"
 
 var Cs = [
   function() {},

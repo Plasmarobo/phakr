@@ -1,7 +1,12 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Phakr = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 
-var _message = require("./message");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Components = void 0;
+
+var _message = require("./message.js");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -41,12 +46,17 @@ var Components = /*#__PURE__*/function () {
   return Components;
 }();
 
-module.exports = Components;
+exports.Components = Components;
 
-},{"./message":6}],2:[function(require,module,exports){
+},{"./message.js":6}],2:[function(require,module,exports){
 "use strict";
 
-var _utils = require("./utils");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ContiguousStorage = void 0;
+
+var _utils = require("./utils.js");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -96,10 +106,15 @@ var ContiguousStorage = /*#__PURE__*/function () {
   return ContiguousStorage;
 }();
 
-module.exports = ContiguousStorage;
+exports.ContiguousStorage = ContiguousStorage;
 
-},{"./utils":8}],3:[function(require,module,exports){
+},{"./utils.js":8}],3:[function(require,module,exports){
 "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Entity = void 0;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -155,14 +170,21 @@ var Entity = /*#__PURE__*/function () {
   return Entity;
 }();
 
-module.exports = Entity;
+exports.Entity = Entity;
 
 },{}],4:[function(require,module,exports){
 "use strict";
 
-var _entity = require("./entity");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EntityManager = void 0;
 
-var _utils = require("./utils");
+var _contiguous_storage = require("./contiguous_storage.js");
+
+var _entity = require("./entity.js");
+
+var _utils = require("./utils.js");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -175,15 +197,12 @@ var ENTITY_DEAD = 0;
 var ENTITY_ALIVE = 1;
 
 var EntityManager = /*#__PURE__*/function () {
-  function EntityManager(components, storage) {
+  function EntityManager(components) {
     _classCallCheck(this, EntityManager);
 
     // Components storages
     this._components = components;
-    this._storage = storage;
-
-    this._storage.resize(INITIAL_CAPACITY); // Entities storages
-
+    this._storage = new _contiguous_storage.ContiguousStorage(components, components.count); // Entities storages
 
     this._entityFlag = new Uint8Array(INITIAL_CAPACITY);
     this._entityMask = new Uint32Array(INITIAL_CAPACITY);
@@ -314,9 +333,9 @@ var EntityManager = /*#__PURE__*/function () {
   return EntityManager;
 }();
 
-module.exports = EntityManager;
+exports.EntityManager = EntityManager;
 
-},{"./entity":3,"./utils":8}],5:[function(require,module,exports){
+},{"./contiguous_storage.js":2,"./entity.js":3,"./utils.js":8}],5:[function(require,module,exports){
 "use strict";
 
 var _components = require("./components");
@@ -330,13 +349,17 @@ var _message = require("./message");
 var _phakr = require("./phakr");
 
 module.exports = {
-  PhakrCore: _phakr.PhakrCore,
+  PhakrPlugin: _phakr.PhakrPlugin,
   PhakrSystem: _phakr.PhakrSystem
 };
 
 },{"./components":1,"./contiguous_storage":2,"./entity_manager":4,"./message":6,"./phakr":7}],6:[function(require,module,exports){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.message = message;
 var messages = {
   "too_many_components": "Too many components declared (only {0} allowed)",
   "unknown_component": "Unknown component type '{0}'",
@@ -351,20 +374,23 @@ function message(type) {
   });
 }
 
-module.exports = message;
-
 },{}],7:[function(require,module,exports){
 "use strict";
 
-var _entity_manager = require("./entity_manager");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PhakrPlugin = exports.PhakrSystem = void 0;
+
+var _components = require("./components.js");
+
+var _entity_manager = require("./entity_manager.js");
 
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -377,7 +403,7 @@ var PhakrSystem = /*#__PURE__*/function () {
     _classCallCheck(this, PhakrSystem);
 
     this.core = core;
-    this.components = components;
+    this.components = new _components.Components(components);
   }
 
   _createClass(PhakrSystem, [{
@@ -391,12 +417,68 @@ var PhakrSystem = /*#__PURE__*/function () {
   return PhakrSystem;
 }();
 
-var PhakrCore = /*#__PURE__*/function () {
-  function PhakrCore(scene, component_list) {
-    _classCallCheck(this, PhakrCore);
+exports.PhakrSystem = PhakrSystem;
 
-    this.scene = scene;
-    this._systems = {};
+var PhakrPlugin = function PhakrPlugin(scene) {
+  this.scene = scene;
+  this._systems = [];
+  this.ecsmanager = null;
+
+  if (!scene.sys.settings.isBooted) {
+    scene.sys.events.once('boot', this.boot, this);
+  }
+};
+
+exports.PhakrPlugin = PhakrPlugin;
+
+PhakrPlugin.register = function (PluginManager) {
+  PluginManager.register('PhakrPlugin', PhakrPlugin, 'phakr');
+};
+
+PhakrPlugin.prototype = {
+  boot: function boot() {
+    var eventEmitter = this.scene.sys.events;
+    eventEmitter.on('update', this.update, this);
+    eventEmitter.on('shutdown', this.shutdown, this);
+    eventEmitter.on('destroy', this.destroy, this);
+  },
+  //  Called every Scene step - phase 2
+  update: function update(time, delta) {
+    var _iterator = _createForOfIteratorHelper(this._systems),
+        _step;
+
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var system = _step.value;
+        var entities = this.queryEntities(system.components);
+
+        var _iterator2 = _createForOfIteratorHelper(entities),
+            _step2;
+
+        try {
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            var entity = _step2.value;
+            system.update(time, delta, entity);
+          }
+        } catch (err) {
+          _iterator2.e(err);
+        } finally {
+          _iterator2.f();
+        }
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+  },
+  //  Called when a Scene shuts down, it may then come back again later (which will invoke the 'start' event) but should be considered dormant.
+  shutdown: function shutdown() {},
+  destroy: function destroy() {
+    this.shutdown();
+    this.scene = undefined;
+  },
+  setComponents: function setComponents(component_list) {
     var count = component_list.length;
     var Cs = new Array(count);
 
@@ -404,132 +486,56 @@ var PhakrCore = /*#__PURE__*/function () {
       Cs[i] = component_list[i];
     }
 
-    var components = new Components(Cs);
-    var storage = new ContiguousStorage(components);
-    this.ecsmanager = new _entity_manager.EntityManager(components, storage);
+    var components = new _components.Components(Cs);
+    this.ecsmanager = new _entity_manager.EntityManager(components);
+  },
+  createEntity: function createEntity() {
+    var e = this.ecsmanager.create();
+    var Cs = new Array(arguments.length);
 
-    if (!scene.sys.settings.isBooted) {
-      scene.sys.events.once('boot', this.boot, this);
+    for (var i = 0; i < Cs.length; i++) {
+      e.add(arguments[i]);
     }
+
+    return e;
+  },
+  queryEntities: function queryEntities() {
+    return this.ecsmanager.query(arguments);
+  },
+  getEntity: function getEntity(id) {
+    return this.ecsmanager.get(id);
+  },
+  valid: function valid(id) {
+    return this.ecsmanager.valid(id);
+  },
+  registerSystem: function registerSystem(system) {
+    if (this._systems.indexOf(system) >= 0) {
+      throw "Cannot register a system twice";
+    }
+
+    this._systems.push(system);
+
+    system.onRegister();
+  },
+  clearSystems: function clearSystems() {
+    this._systems.clear();
   }
-
-  _createClass(PhakrCore, [{
-    key: "boot",
-    value: function boot() {
-      var eventEmitter = this.scene.sys.events;
-      eventEmitter.on('update', this.update, this);
-      eventEmitter.on('shutdown', this.shutdown, this);
-      eventEmitter.on('destroy', this.destroy, this);
-    } //  Called every Scene step - phase 2
-
-  }, {
-    key: "update",
-    value: function update(time, delta) {
-      var _iterator = _createForOfIteratorHelper(this._systems),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var system = _step.value;
-          var entities = this.queryEntities(system.components);
-
-          var _iterator2 = _createForOfIteratorHelper(entities),
-              _step2;
-
-          try {
-            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-              var entity = _step2.value;
-              system.update(time, delta, entity);
-            }
-          } catch (err) {
-            _iterator2.e(err);
-          } finally {
-            _iterator2.f();
-          }
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
-    } //  Called when a Scene shuts down, it may then come back again later (which will invoke the 'start' event) but should be considered dormant.
-
-  }, {
-    key: "shutdown",
-    value: function shutdown() {}
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      this.shutdown();
-      this.scene = undefined;
-    }
-  }, {
-    key: "createEntity",
-    value: function createEntity() {
-      var e = this.ecsmanager.create();
-      var Cs = new Array(arguments.length);
-
-      for (var i = 0; i < Cs.length; i++) {
-        e.add(arguments[i]);
-      }
-
-      return e;
-    }
-  }, {
-    key: "queryEntities",
-    value: function queryEntities() {
-      return this.ecsmanager.query(arguments);
-    }
-  }, {
-    key: "getEntity",
-    value: function getEntity(id) {
-      return this.ecsmanager.get(id);
-    }
-  }, {
-    key: "valid",
-    value: function valid(id) {
-      return this.ecsmanager.valid(id);
-    }
-  }, {
-    key: "registerSystem",
-    value: function registerSystem(system) {
-      if (this._systems.indexOf(system) >= 0) {
-        throw "Cannot register a system twice";
-      }
-
-      this._systems.push(system);
-
-      system.onRegister();
-    }
-  }, {
-    key: "clearSystems",
-    value: function clearSystems() {
-      this._systems.clear();
-    }
-  }]);
-
-  return PhakrCore;
-}();
-
-_defineProperty(PhakrCore, "register", function (PluginManager) {
-  PluginManager.register('PhakrCore', PhakrCore, 'phakr');
-});
-
-;
-module.exports = {
-  PhakrCore: PhakrCore,
-  PhakrSystem: PhakrSystem
 };
+PhakrPlugin.prototype.constructor = PhakrPlugin;
 
-},{"./entity_manager":4}],8:[function(require,module,exports){
+},{"./components.js":1,"./entity_manager.js":4}],8:[function(require,module,exports){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.arrayCreate = arrayCreate;
 exports.arrayExpand = arrayExpand;
 exports.arrayFill = arrayFill;
-exports.typedArrayExpand = typedArrayExpand; // Arrays
-// ------
+exports.typedArrayExpand = typedArrayExpand;
 
+// Arrays
+// ------
 function arrayCreate(length, value) {
   return arrayFill(new Array(length), value, 0, length);
 }

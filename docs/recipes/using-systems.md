@@ -1,7 +1,7 @@
 # Using systems
 
 ```js
-import makr from "makr"
+import phakr from "phakr"
 import raf from "speedr-raf"
 
 class Body {
@@ -20,7 +20,7 @@ class Display {
 }
 
 // Create the entity manager
-const em = makr(Body, Display)
+const em = phakr(Body, Display)
 
 function movementSystem(dt) {  
   for (let entity of em.query(Body)) {

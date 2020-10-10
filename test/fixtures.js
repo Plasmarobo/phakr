@@ -1,13 +1,13 @@
-exports.Position = function(x, y) {
+export function Position(x, y) {
   this.x = x
   this.y = y
 }
 
-exports.Motion = function(dx, dy) {
+export function Motion(dx, dy) {
   this.dx = dx
   this.dy = dy
 }
 
-exports.Tag = function(tag) {
+export function Tag(tag) {
   this.tag = tag
 }

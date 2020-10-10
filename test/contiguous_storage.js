@@ -1,6 +1,7 @@
-var expect = require("chai").expect
-var Components = require("../lib/components")
-var ContiguousStorage = require("../lib/contiguous_storage")
+import chai from 'chai';
+let expect = chai.expect;
+import { Components } from "../lib/components.js"
+import { ContiguousStorage } from "../lib/contiguous_storage.js"
 
 function A() { this.x = 0 }
 function B() { this.x = 1 }
@@ -21,7 +22,7 @@ describe("ContiguousStorage", function() {
   it("initializes components to null", function() {
     for (var id = 0; id < N; id++) {
       for (var index = 0; index < Cs.length; index++) {
-        expect(storage.get(id, index)).to.be.null()
+        expect(storage.get(id, index)).to.eql(null)
       }
     }
   })
@@ -40,7 +41,7 @@ describe("ContiguousStorage", function() {
       storage.set(3, index, comp)
       storage.delete(3, index)
 
-      expect(storage.get(3, index)).to.be.null()
+      expect(storage.get(3, index)).to.be.null
     }
   })
 
@@ -55,17 +56,17 @@ describe("ContiguousStorage", function() {
 
     for (var id = 0; id < 3; id++) {
       for (var index = 0; index < Cs.length; index++) {
-        expect(storage.get(id, index)).to.exist()
+        expect(storage.get(id, index)).to.exist
       }
     }
 
     for (var index = 0; index < Cs.length; index++) {
-      expect(storage.get(3, index)).to.be.null()
+      expect(storage.get(3, index)).to.be.null
     }
 
     for (var id = 4; id < N; id++) {
       for (var index = 0; index < Cs.length; index++) {
-        expect(storage.get(id, index)).to.exist()
+        expect(storage.get(id, index)).to.exist
       }
     }
   })
@@ -81,12 +82,12 @@ describe("ContiguousStorage", function() {
 
     for (var id = 0; id < N; id++) {
       for (var index = 0; index < Cs.length; index++) {
-        expect(storage.get(id, index)).to.exist()
+        expect(storage.get(id, index)).to.exist
       }
     }
 
     for (var index = 0; index < Cs.length; index++) {
-      expect(storage.get(N, index)).to.be.null()
+      expect(storage.get(N, index)).to.be.null
     }
   })
 })

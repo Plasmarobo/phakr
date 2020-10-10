@@ -1,16 +1,15 @@
-var expect = require("chai").expect
-var fixtures = require("./fixtures")
-var EntityManager = require("..")
-
-var Position = fixtures.Position
-var Motion = fixtures.Motion
-var Tag = fixtures.Tag
+import chai from 'chai';
+let expect = chai.expect;
+import { Motion, Position, Tag } from './fixtures.js'
+import { EntityManager } from "../lib/entity_manager.js"
+import { ContiguousStorage } from '../lib/contiguous_storage.js';
+import { Components } from '../lib/components.js';
 
 describe("Entity", function() {
   var em
 
   beforeEach(function() {
-    em = new EntityManager(Position, Motion, Tag)
+    em = new EntityManager(new Components([Position, Motion, Tag]))
   })
 
   it("should validate itself", function() {
@@ -19,25 +18,25 @@ describe("Entity", function() {
 
     entity.destroy()
     expect(entity.valid).to.equal(em.valid(entity))
-    expect(entity.valid).to.be.false()
+    expect(entity.valid).to.be.false
   })
 
   it("should manipulate components", function() {
     var entity = em.create()
     var tag = new Tag('foo')
 
-    expect(entity.has(Tag)).to.be.false()
-    expect(entity.get(Tag)).to.be.null()
+    expect(entity.has(Tag)).to.be.false
+    expect(entity.get(Tag)).to.be.null
 
     entity.add(tag)
 
-    expect(entity.has(Tag)).to.be.true()
+    expect(entity.has(Tag)).to.be.true
     expect(entity.get(Tag)).to.equal(tag)
 
     entity.remove(Tag)
 
-    expect(entity.has(Tag)).to.be.false()
-    expect(entity.get(Tag)).to.be.null()
+    expect(entity.has(Tag)).to.be.false
+    expect(entity.get(Tag)).to.be.null
   })
 
   describe("#destroy", function() {
@@ -48,18 +47,18 @@ describe("Entity", function() {
       entity.add(new Motion(0, 0))
       entity.destroy()
 
-      expect(entity.has(Position)).to.be.false()
-      expect(entity.get(Position)).to.be.null()
+      expect(entity.has(Position)).to.be.false
+      expect(entity.get(Position)).to.be.null
 
-      expect(entity.has(Motion)).to.be.false()
-      expect(entity.get(Motion)).to.be.null()
+      expect(entity.has(Motion)).to.be.false
+      expect(entity.get(Motion)).to.be.null
     })
 
     it("should be invalidated", function() {
       var entity = em.create()
       entity.destroy()
 
-      expect(entity.valid).to.be.false()
+      expect(entity.valid).to.be.false
     })
   })
 })
