@@ -511,7 +511,7 @@ PhakrPlugin.prototype = {
     return e;
   },
   queryEntities: function queryEntities(components) {
-    return this.ecsmanager.query(components);
+    return this.ecsmanager.query(components.array);
   },
   getEntity: function getEntity(id) {
     return this.ecsmanager.get(id);
