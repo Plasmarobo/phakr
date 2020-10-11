@@ -39,7 +39,7 @@ describe("utils", function() {
       var out = typedArrayExpand(arr, 4)
 
       expect(out).to.be.instanceof(Uint8Array)
-      expect(out).to.be.eql({0: 1, 1: 1, 2: 0, 3: 0})
+      expect(out).to.deep.equals(new Uint8Array([1, 1, 0, 0]))
     })
   })
 })
